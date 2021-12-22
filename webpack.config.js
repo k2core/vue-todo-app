@@ -9,7 +9,11 @@ require('@babel/polyfill')
 module.exports = (env, opts) => {
   const config = {
     resolve: {
-      extensions: ['.vue', '.js']
+      extensions: ['.vue', '.js'],
+      fallback: {
+        fs: false,
+        path: false
+      }
     },
     // 중복 옵션
     entry: {
