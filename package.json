@@ -38,6 +38,7 @@
     "eslint-plugin-vue": "^8.1.1",
     "html-webpack-plugin": "^5.5.0",
     "postcss-loader": "^6.2.0",
+    "process": "^0.11.10",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "vue-loader": "^15.9.8",
@@ -50,9 +51,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
     "crypto-random-string": "^4.0.0",
     "lodash": "^4.17.21",
     "lowdb": "^3.0.0",
+    "util": "^0.12.4",
     "vue": "^2.6.14"
   }
 }

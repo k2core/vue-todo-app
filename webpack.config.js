@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -12,7 +13,11 @@ module.exports = (env, opts) => {
       extensions: ['.vue', '.js'],
       fallback: {
         fs: false,
-        path: false
+        path: false,
+        util: require.resolve('util/'),
+        crypto: require.resolve('crypto-browserify'),
+        stream: false,
+        buffer: require.resolve('util/')
       }
     },
     // 중복 옵션
@@ -56,6 +61,9 @@ module.exports = (env, opts) => {
       }),
       new CopyPlugin({
         patterns: [{ from: 'assets/', to: '' }]
+      }),
+      new webpack.ProvidePlugin({
+        process: 'process/browser'
       })
     ]
   }
