@@ -7,6 +7,7 @@
 
 <script>
 import { LowSync, LocalStorage } from 'lowdb'
+import cryptoRandomString from 'crypto-random-string'
 import TodoCreator from './TodoCreator'
 import TodoItem from './TodoItem'
 
@@ -32,6 +33,17 @@ export default {
       this.db.read()
       this.db.data ||= { todos: [] }
       this.db.write()
+    },
+    createTodo(title) {
+      const newTodo = {
+        id: cryptoRandomString({ length: 10 }),
+        title,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        done: false
+      }
+
+      this.db.todos.push(newTodo).write()
     }
   }
 }
