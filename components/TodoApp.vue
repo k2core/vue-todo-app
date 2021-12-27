@@ -43,7 +43,8 @@ export default {
         done: false
       }
 
-      this.db.todos.push(newTodo).write()
+      this.db.data.todos.push(newTodo)
+      this.db.write()
     }
   }
 }
