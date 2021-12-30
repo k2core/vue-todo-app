@@ -1,6 +1,6 @@
 <template>
   <div>
-    <todo-item />
+    <todo-item v-for="todo in todos" :key="todo.id" :todo="todo" />
     <todo-creator @create-todo="createTodo" />
   </div>
 </template>
@@ -8,6 +8,7 @@
 <script>
 import { LowSync, LocalStorage } from 'lowdb'
 import cryptoRandomString from 'crypto-random-string'
+import _cloneDeep from 'lodash/cloneDeep'
 import TodoCreator from './TodoCreator'
 import TodoItem from './TodoItem'
 
@@ -18,7 +19,8 @@ export default {
   },
   data() {
     return {
-      db: null
+      db: null,
+      todos: []
     }
   },
   created() {
@@ -29,10 +31,14 @@ export default {
       const adapter = new LocalStorage('todo-app') // DB name
       this.db = new LowSync(adapter)
 
-      // Local DB 초기화
       this.db.read()
-      this.db.data ||= { todos: [] }
-      this.db.write()
+
+      if (this.db.data && this.db.data.todos) {
+        this.todos = _cloneDeep(this.db.data.todos)
+      } else {
+        this.db.data = { todos: [] }
+        this.db.write()
+      }
     },
     createTodo(title) {
       const newTodo = {
