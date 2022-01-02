@@ -1,6 +1,13 @@
 <template>
   <div>
-    <todo-item v-for="todo in todos" :key="todo.id" :todo="todo" />
+    <todo-item
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+      @update-todo="updateTodo"
+      @delete-todo="deleteTodo"
+    />
+    <hr />
     <todo-creator @create-todo="createTodo" />
   </div>
 </template>
@@ -51,6 +58,12 @@ export default {
 
       this.db.data.todos.push(newTodo)
       this.db.write()
+    },
+    updateTodo() {
+      console.log('Update todo!')
+    },
+    deleteTodo() {
+      console.log('Delete todo!')
     }
   }
 }
