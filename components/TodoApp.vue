@@ -16,6 +16,9 @@
 import { LowSync, LocalStorage } from 'lowdb'
 import cryptoRandomString from 'crypto-random-string'
 import _cloneDeep from 'lodash/cloneDeep'
+// import _chain from 'lodash/chain'
+import _find from 'lodash/find'
+import _assign from 'lodash/assign'
 import TodoCreator from './TodoCreator'
 import TodoItem from './TodoItem'
 
@@ -58,9 +61,41 @@ export default {
 
       this.db.data.todos.push(newTodo)
       this.db.write()
+
+      this.todos.push(newTodo)
     },
-    updateTodo() {
-      console.log('Update todo!')
+    updateTodo(todo, value) {
+      /**
+       * 강의 버전(lowdb 1.0.0)
+       */
+      // this.db
+      //   .get('todos')
+      //   .find({ id: todo.id })
+      //   .assign(value)
+      //   .write()
+
+      /**
+       * lowdb README.md의 Lodash chain 사용법
+       * 아래 코드는 오류가 발생한다. 이유는 아직 모르겠다.
+       * 추후 시간을 내서 Lodash의 체이닝을 이용하는 이 방법을 알아봐야겠다.
+       * "TypeError: this.db.chain.get is not a function"
+       */
+      // this.db.chain = _chain(this.db.data)
+      // const post = this.db.chain
+      //   .get('todos')
+      //   .find(p => p.id === todo.id)
+      //   .value()
+
+      for (let i = 0; i < this.db.data.todos.length; i++) {
+        if (this.db.data.todos[i].id === todo.id) {
+          this.db.data.todos[i] = { ...this.db.data.todos[i], ...value }
+          this.db.write()
+          break
+        }
+      }
+
+      const foundTodo = _find(this.todos, { id: todo.id })
+      _assign(foundTodo, value)
     },
     deleteTodo() {
       console.log('Delete todo!')
