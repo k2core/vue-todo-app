@@ -252,8 +252,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-button.active {
-  font-weight: bold;
-}
+<style lang="scss">
+@import '../scss/style';
 </style>
